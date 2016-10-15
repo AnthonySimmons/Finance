@@ -8,7 +8,8 @@ namespace Finance
 {
     public class DataPoint
     {
-        public double X { get; set; }
+        public DateTime X { get; set; }
+
         public double Y { get; set; }
     }
 }

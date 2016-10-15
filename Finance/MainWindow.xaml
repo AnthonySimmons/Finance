@@ -6,19 +6,51 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Finance"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="500" Width="655">
+    <Window.DataContext>
+        <local:ReportViewModel />
+    </Window.DataContext>
     <Grid>
-        <sparrow:SparrowChart>
-            <sparrow:SparrowChart.DataContext>
-                <local:TransactionsViewModel />
-            </sparrow:SparrowChart.DataContext>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="20*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+
+        <StackPanel Grid.ColumnSpan="4" VerticalAlignment="Top">
+            <Menu DockPanel.Dock="Top" Width="Auto">
+                <MenuItem Header="_File">
+                    <MenuItem Header="_Open" Click="MenuItem_Open_Click" InputGestureText="Ctrl+O"/>
+                    <MenuItem Header="_Exit" Click="MenuItem_Exit_Click"/>
+                </MenuItem>
+            </Menu>
+        </StackPanel>
+
+        <StackPanel Grid.Column="1" Grid.Row="1">
+            <TextBlock Margin="0,0,10,0">Start Date: </TextBlock>
+            <DatePicker DisplayDate="{Binding Path=StartDate}" SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
+        </StackPanel>
+
+        <StackPanel Grid.Column="2" Grid.Row="1">
+        <TextBlock Margin="0,0,10,0">End Date: </TextBlock>
+            <DatePicker DisplayDate="{Binding Path=EndDate}" SelectedDate="{Binding Path=EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
+        </StackPanel>
+
+        <sparrow:SparrowChart Grid.Row="3" Grid.ColumnSpan="4">
             <sparrow:SparrowChart.XAxis>
-                <sparrow:LinearXAxis/>
+                <sparrow:DateTimeXAxis ShowMajorTicks="True" MinValue="{Binding StartOADate, UpdateSourceTrigger=PropertyChanged}" MaxValue="{Binding EndOADate, UpdateSourceTrigger=PropertyChanged}"/>
             </sparrow:SparrowChart.XAxis>
             <sparrow:SparrowChart.YAxis>
-                <sparrow:LinearYAxis/>
+                <sparrow:LinearYAxis />
             </sparrow:SparrowChart.YAxis>
-            <sparrow:LineSeries PointsSource="{Binding Transactions}" XPath="X" YPath="Y"/>
+            <sparrow:LineSeries PointsSource="{Binding DataPoints}" XPath="X" YPath="Y"/>
         </sparrow:SparrowChart>
+        
     </Grid>
 </Window>

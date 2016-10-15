@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FinanceModel
 {
@@ -15,7 +11,7 @@ namespace FinanceModel
         public string Description { get; set; }
 
         public double Amount { get; set; }
-
+        
     }
 
     public enum TransactionType
@@ -23,5 +19,15 @@ namespace FinanceModel
         Unknown,
         Debit,
         Credit,
+    }
+
+    public class Expense : Transaction
+    {
+
+    }
+
+    public class Deposit : Transaction
+    {
+
     }
 }

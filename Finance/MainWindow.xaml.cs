@@ -1,4 +1,5 @@
 ﻿using FinanceModel;
+using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -21,9 +22,28 @@ namespace Finance
     /// </summary>
     public partial class MainWindow : Window
     {
+        
         public MainWindow()
         {
             InitializeComponent();
+        }
+
+        private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Environment.Exit(0);
+        }
+
+        private void MenuItem_Open_Click(object sender, RoutedEventArgs e)
+        {
+            ReportViewModel viewModel = DataContext as ReportViewModel;
+            if(viewModel != null)
+            {
+                OpenFileDialog fileDialog = new OpenFileDialog();
+                fileDialog.Multiselect = true;
+                fileDialog.InitialDirectory = Config.DataDirectoryPath;
+                fileDialog.ShowDialog();
+                viewModel.LoadDataFromFiles(fileDialog.FileNames);                 
+            }
         }
     }
 }

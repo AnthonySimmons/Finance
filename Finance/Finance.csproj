@@ -59,8 +59,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Config.cs" />
     <Compile Include="DataPoint.cs" />
-    <Compile Include="TransactionsViewModel.cs" />
+    <Compile Include="ReportViewModel.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

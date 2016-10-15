@@ -1,17 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Hazzik;
 using Hazzik.Qif;
+using Hazzik.Qif.Transactions;
 
 namespace FinanceModel
 {
-    public class TransactionLoader : ITransactionLoader
+    public class QuickenTransactionLoader : ITransactionLoader
     {
-        public IEnumerable<Transaction> Load(string filePath)
+        public TransactionCollection Load(string filePath)
         {
             QifDocument doc = GetQif(filePath);
 
@@ -28,24 +25,33 @@ namespace FinanceModel
             return doc;
         }
 
-        private IEnumerable<Transaction> GetExpenseModels(QifDocument doc)
+        protected TransactionCollection GetExpenseModels(QifDocument doc)
         {
-            var expenses = new List<Transaction>();
+            var expenses = new TransactionCollection();
+            double total = 0;
+
             foreach(var transaction in doc.BankTransactions)
             {
+                if(!ShouldInclude(transaction))
+                {
+                    continue;
+                }
+
                 TransactionType type;
                 Enum.TryParse(transaction.Number, out type);
 
-                var expense = new Transaction
-                {
-                    Amount = (double)transaction.Amount,
-                    DateTime = transaction.Date,
-                    Description = transaction.Memo,
-                    TransactionType = type,
-                };
-                expenses.Add(expense);
+                double amount = (double)transaction.Amount;
+                total += amount;
+                expenses.Add(transaction.Memo, amount, transaction.Date, type);
+                
             }
             return expenses;
         }
+
+        protected virtual bool ShouldInclude(BasicTransaction transaction)
+        {
+            return true;
+        }
     }
+
 }

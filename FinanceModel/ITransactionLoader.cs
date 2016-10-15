@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace FinanceModel
 {
-    interface ITransactionLoader
+    public interface ITransactionLoader
     {
 
-        IEnumerable<Transaction> Load(string filePath);
+        TransactionCollection Load(string filePath);
     }
 }
