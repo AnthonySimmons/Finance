@@ -12,14 +12,9 @@ namespace FinanceModel
 
         public double Amount { get; set; }
         
+
     }
 
-    public enum TransactionType
-    {
-        Unknown,
-        Debit,
-        Credit,
-    }
 
     public class Expense : Transaction
     {

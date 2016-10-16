@@ -45,5 +45,6 @@ namespace Finance
                 viewModel.LoadDataFromFiles(fileDialog.FileNames);                 
             }
         }
+        
     }
 }

@@ -1,4 +1,6 @@
-﻿using FinanceModel;
+﻿using Finance.DataFilters;
+using FinanceModel;
+using FinanceModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,8 +11,28 @@ using System.Threading.Tasks;
 
 namespace Finance
 {
+
     public class ReportViewModel : INotifyPropertyChanged
     {
+
+        private ReportType _reportType;
+        public ReportType ReportType
+        {
+            get
+            {
+                return _reportType;
+            }
+            set
+            {
+                if(_reportType != value)
+                {
+                    _reportType = value;
+                    OnPropertyChanged(nameof(ReportType));
+                    LoadDataPoints();
+                }
+            }
+        }
+
         private ObservableCollection<DataPoint> _dataPoints = new ObservableCollection<DataPoint>();
         public ObservableCollection<DataPoint> DataPoints
         {
@@ -85,18 +107,32 @@ namespace Finance
             }
             set { }
         }
-        
+
+        private static Dictionary<ReportType, Type> DataFilters = new Dictionary<ReportType, Type>
+        {
+            [ReportType.Unknown] = typeof(DataFilterTotal),
+            [ReportType.Total] = typeof(DataFilterTotal),
+            [ReportType.Expenses] = typeof(DataFilterExpenses),
+            [ReportType.Income] = typeof(DataFilterIncome),
+        };
+
+        private DataFilter GetFilter(ReportType type)
+        {
+            return (DataFilter)Activator.CreateInstance(DataFilters[type]);
+        }
+
         public ReportViewModel()
         {
             LoadTransactions();
             StartDate = new DateTime(2016, 10, 1);
             EndDate = DateTime.Now;
+            ReportType = ReportType.Total;
         }
         
 
         private void LoadTransactions()
         {
-            _dataModel = new ReportModel(new QuickenExpenseLoader());
+            _dataModel = new ReportModel(new QuickenTransactionLoader());
             LoadDataFromFolder(Config.ExpensesDirectoryPath);
         }
         
@@ -107,8 +143,9 @@ namespace Finance
             {
                 _dataModel.LoadDataFromFolder(filepath);
             }
-            LoadTotalExpenses();
+            LoadDataPoints();
         }
+                
 
         public void LoadDataFromFiles(params string[] filePaths)
         {
@@ -117,37 +154,20 @@ namespace Finance
             {
                 _dataModel.LoadDataFromFile(filepath);
             }
-            LoadTotalExpenses();
+            LoadDataPoints();
         }
 
-        private IEnumerable<Transaction> GetFilteredTransactions()
+        private void LoadDataPoints()
         {
-            var transactions = _dataModel.Transactions.Where(t => t.DateTime > StartDate);
-            transactions = transactions.Where(t => t.DateTime < EndDate);
-            return transactions.OrderBy(t => t.DateTime);
-        }
-
-        private void LoadTotalExpenses()
-        {
+            DataFilter filter = GetFilter(ReportType);
             DataPoints.Clear();
-            //Add an empty data point to start at the origin.
-            DataPoints.Add(new DataPoint());
-
-            var filteredTransactions = GetFilteredTransactions();
-            
-            double total = 0;
-            foreach (var transaction in filteredTransactions)
+            var dataPoints = filter.Filter(_dataModel.Transactions, StartDate, EndDate);
+            foreach (var dataPoint in dataPoints)
             {
-                total += transaction.Amount;
-                var dataPoint = new DataPoint
-                {
-                    X = transaction.DateTime,
-                    Y = -total,
-                };
                 DataPoints.Add(dataPoint);
             }
         }
-
+     
         protected virtual void OnPropertyChanged(string propertyName)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));

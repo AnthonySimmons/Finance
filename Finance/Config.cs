@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System;
+using FinanceModel;
 
 namespace Finance
 {
@@ -10,6 +11,7 @@ namespace Finance
         public static string DataDirectoryPath => Path.Combine(AppDataPath, "Data");
 
         public static string ExpensesDirectoryPath => Path.Combine(DataDirectoryPath, "Expenses");
+        
 
     }
 }

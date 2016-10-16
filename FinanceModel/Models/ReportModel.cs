@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceModel
+namespace FinanceModel.Models
 {
     public class ReportModel
     {
@@ -51,6 +51,6 @@ namespace FinanceModel
         }
 
         public TransactionCollection Transactions => _transactions;
-
+        
     }
 }
