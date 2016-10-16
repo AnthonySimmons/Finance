@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace FinanceModel
+namespace FinanceModel.Models
 {
     public class Transaction
     {
@@ -12,7 +12,7 @@ namespace FinanceModel
 
         public double Amount { get; set; }
         
-
+        public string Payee { get; set; }
     }
 
 

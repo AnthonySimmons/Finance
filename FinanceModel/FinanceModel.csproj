@@ -65,7 +65,7 @@
     <Compile Include="Enums.cs" />
     <Compile Include="Models\ReportModel.cs" />
     <Compile Include="QuickenTransactionLoader.cs" />
-    <Compile Include="Transaction.cs" />
+    <Compile Include="Models\Transaction.cs" />
     <Compile Include="ITransactionLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TransactionCollection.cs" />

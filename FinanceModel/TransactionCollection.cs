@@ -1,4 +1,5 @@
-﻿using System;
+﻿using FinanceModel.Models;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -29,7 +30,7 @@ namespace FinanceModel
             }
         }
 
-        public void Add(string description, double amount, DateTime date, TransactionType type)
+        public void Add(string description, double amount, DateTime date, TransactionType type, string payee)
         {
             var transaction = new Transaction
             {
@@ -37,6 +38,7 @@ namespace FinanceModel
                 DateTime = date,
                 Description = description,
                 TransactionType = type,
+                Payee = payee,
             };
             Add(transaction);
         }

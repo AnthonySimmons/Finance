@@ -1,4 +1,5 @@
 ﻿using FinanceModel;
+using FinanceModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,6 +10,7 @@ namespace Finance.DataFilters
     {
         public static string[] TransferDescriptions = new string[]
         {
+            @"TRANSFER",
             @"AUTHORIZED PMT BANK OF AMERI",
         };
 
@@ -37,7 +39,7 @@ namespace Finance.DataFilters
 
         private bool IsTransfer(Transaction transaction)
         {
-            return TransferDescriptions.Any(d => transaction.Description.Contains(d));
+            return TransferDescriptions.Any(d => transaction.Description.Contains(d) || transaction.Payee.Contains(d));
         }
 
         private bool IsInDateRange(DateTime source, DateTime startDate, DateTime endDate)
@@ -45,7 +47,27 @@ namespace Finance.DataFilters
             return source > startDate && source < endDate;
         }
 
-        protected abstract void ProcessTransactions(IEnumerable<Transaction> transactions, IList<DataPoint> dataPoints);
+        protected abstract bool ShouldInclude(Transaction transaction);
+
+        protected virtual void ProcessTransactions(IEnumerable<Transaction> transactions, IList<DataPoint> dataPoints)
+        {
+            double total = 0;
+            foreach (var transaction in transactions)
+            {
+                if (!ShouldInclude(transaction))
+                {
+                    continue;
+                }
+
+                total += transaction.Amount;
+                var dataPoint = new DataPoint
+                {
+                    X = transaction.DateTime,
+                    Y = total,
+                };
+                dataPoints.Add(dataPoint);
+            }
+        }
 
     }
 }

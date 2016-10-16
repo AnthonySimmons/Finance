@@ -32,26 +32,17 @@ namespace FinanceModel
 
             foreach(var transaction in doc.BankTransactions)
             {
-                if(!ShouldInclude(transaction))
-                {
-                    continue;
-                }
-
                 TransactionType type;
                 Enum.TryParse(transaction.Number, out type);
 
                 double amount = (double)transaction.Amount;
                 total += amount;
-                expenses.Add(transaction.Memo, amount, transaction.Date, type);
+                expenses.Add(transaction.Memo, amount, transaction.Date, type, transaction.Payee);
                 
             }
             return expenses;
         }
-
-        protected virtual bool ShouldInclude(BasicTransaction transaction)
-        {
-            return true;
-        }
+             
 
     }
 
