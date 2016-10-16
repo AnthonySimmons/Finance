@@ -4,12 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace FinanceModel
+namespace Finance.ViewModels
 {
     public class DataPoint
     {
-        public DateTime X { get; set; }
 
-        public double Y { get; set; }
     }
 }

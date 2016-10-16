@@ -12,6 +12,5 @@ namespace Finance
 
         public static string ExpensesDirectoryPath => Path.Combine(DataDirectoryPath, "Expenses");
         
-
     }
 }

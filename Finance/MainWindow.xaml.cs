@@ -1,4 +1,5 @@
-﻿using FinanceModel;
+﻿using Finance.ViewModels;
+using FinanceModel;
 using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
@@ -35,7 +36,7 @@ namespace Finance
 
         private void MenuItem_Open_Click(object sender, RoutedEventArgs e)
         {
-            ReportViewModel viewModel = DataContext as ReportViewModel;
+            LineChartViewModel viewModel = DataContext as LineChartViewModel;
             if(viewModel != null)
             {
                 OpenFileDialog fileDialog = new OpenFileDialog();

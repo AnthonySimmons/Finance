@@ -5,29 +5,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Finance"
+        xmlns:vms="clr-namespace:Finance.ViewModels"
+        xmlns:DV="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
+        xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="700">
-    <Window.DataContext>
-        <local:ReportViewModel />
-    </Window.DataContext>
+    <Window.Resources>
+        <vms:LineChartViewModel x:Key="LineChartViewModel" />
+        <vms:PieChartViewModel x:Key="PieChartViewModel" />
+    </Window.Resources>
     <Grid>
-        <Grid.Resources>
-            <local:EnumBoolConverter x:Key="enumBooleanConverter" />
-        </Grid.Resources>
-
         <Grid.RowDefinitions>
             <RowDefinition Height="1*"/>
-            <RowDefinition Height="3*"/>
             <RowDefinition Height="20*"/>
         </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-            <ColumnDefinition />
-        </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.ColumnSpan="4" VerticalAlignment="Top">
+        <StackPanel Grid.ColumnSpan="1" VerticalAlignment="Top">
             <Menu DockPanel.Dock="Top" Width="Auto">
                 <MenuItem Header="_File">
                     <MenuItem Header="_Open" Click="MenuItem_Open_Click" InputGestureText="Ctrl+O"/>
@@ -36,34 +29,104 @@
             </Menu>
         </StackPanel>
 
-        <GroupBox Grid.Row="1" Grid.Column="1">
-            <GroupBox.Header>Report Type</GroupBox.Header>
-            <StackPanel>
-                <RadioButton Content="Total" IsChecked="{Binding Path=ReportType, Mode=TwoWay, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Total}"/>
-                <RadioButton Content="Expenses" IsChecked="{Binding Path=ReportType, Mode=TwoWay, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Expenses}"/>
-                <RadioButton Content="Income" IsChecked="{Binding Path=ReportType, Mode=TwoWay, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Income}"/>
-            </StackPanel>
-        </GroupBox>
+        <TabControl Grid.Row="1">
+            <TabItem Header="Line" Width="200" Height="22" Margin="0,-2,0,0" VerticalAlignment="Top">
+                <Grid DataContext="{StaticResource ResourceKey=LineChartViewModel}">
+                    <Grid.Resources>
+                        <local:EnumBoolConverter x:Key="enumBooleanConverter" />
+                    </Grid.Resources>
 
-        <StackPanel Grid.Column="2" Grid.Row="1">
-            <TextBlock Margin="0,0,10,0">Start Date: </TextBlock>
-            <DatePicker DisplayDate="{Binding Path=StartDate}" SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
-        </StackPanel>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*"/>
+                        <RowDefinition Height="20*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
 
-        <StackPanel Grid.Column="3" Grid.Row="1">
-        <TextBlock Margin="0,0,10,0">End Date: </TextBlock>
-            <DatePicker DisplayDate="{Binding Path=EndDate}" SelectedDate="{Binding Path=EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
-        </StackPanel>
 
-        <sparrow:SparrowChart Grid.Row="3" Grid.ColumnSpan="4">
-            <sparrow:SparrowChart.XAxis>
-                <sparrow:DateTimeXAxis ShowMajorTicks="True" MinValue="{Binding StartOADate, UpdateSourceTrigger=PropertyChanged}" MaxValue="{Binding EndOADate, UpdateSourceTrigger=PropertyChanged}"/>
-            </sparrow:SparrowChart.XAxis>
-            <sparrow:SparrowChart.YAxis>
-                <sparrow:LinearYAxis />
-            </sparrow:SparrowChart.YAxis>
-            <sparrow:LineSeries PointsSource="{Binding DataPoints}" XPath="X" YPath="Y"/>
-        </sparrow:SparrowChart>
-        
+                    <GroupBox Grid.Row="0" Grid.Column="1">
+                        <GroupBox.Header>Report Type</GroupBox.Header>
+                        <StackPanel>
+                            <RadioButton Content="Total" IsChecked="{Binding Path=ReportType, Mode=TwoWay, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Total}"/>
+                            <RadioButton Content="Expenses" IsChecked="{Binding Path=ReportType, Mode=TwoWay, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Expenses}"/>
+                            <RadioButton Content="Income" IsChecked="{Binding Path=ReportType, Mode=TwoWay, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Income}"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <StackPanel Grid.Column="2" Grid.Row="0">
+                        <TextBlock Margin="0,0,10,0">Start Date:</TextBlock>
+                        <DatePicker DisplayDate="{Binding Path=StartDate}" SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="3" Grid.Row="0">
+                        <TextBlock Margin="0,0,10,0">End Date:</TextBlock>
+                        <DatePicker DisplayDate="{Binding Path=EndDate}" SelectedDate="{Binding Path=EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
+                    </StackPanel>
+
+                    <sparrow:SparrowChart Grid.Row="3" Grid.ColumnSpan="4">
+                        <sparrow:SparrowChart.XAxis>
+                            <sparrow:DateTimeXAxis ShowMajorTicks="True" MinValue="{Binding StartOADate, UpdateSourceTrigger=PropertyChanged}" MaxValue="{Binding EndOADate, UpdateSourceTrigger=PropertyChanged}"/>
+                        </sparrow:SparrowChart.XAxis>
+                        <sparrow:SparrowChart.YAxis>
+                            <sparrow:LinearYAxis />
+                        </sparrow:SparrowChart.YAxis>
+                        <sparrow:LineSeries PointsSource="{Binding DataPoints}" XPath="X" YPath="Y"/>
+                    </sparrow:SparrowChart>
+
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="Pie" Width="200">
+                <Grid DataContext="{StaticResource ResourceKey=PieChartViewModel}">
+                    <Grid.Resources>
+                        <local:EnumBoolConverter x:Key="enumBooleanConverter" />
+                    </Grid.Resources>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="3*"/>
+                    <RowDefinition Height="20*"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+
+                    <GroupBox Grid.Row="0" Grid.Column="1">
+                        <GroupBox.Header>Report Type</GroupBox.Header>
+                        <StackPanel>
+                            <RadioButton Content="Total" IsChecked="{Binding Path=ReportType, Mode=TwoWay, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Total}"/>
+                            <RadioButton Content="Expenses" IsChecked="{Binding Path=ReportType, Mode=TwoWay, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Expenses}"/>
+                            <RadioButton Content="Income" IsChecked="{Binding Path=ReportType, Mode=TwoWay, Converter={StaticResource enumBooleanConverter}, ConverterParameter=Income}"/>
+                        </StackPanel>
+                    </GroupBox>
+
+                    <StackPanel Grid.Column="2" Grid.Row="0">
+                        <TextBlock Margin="0,0,10,0">Start Date:</TextBlock>
+                        <DatePicker DisplayDate="{Binding Path=StartDate}" SelectedDate="{Binding StartDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="3" Grid.Row="0">
+                        <TextBlock Margin="0,0,10,0">End Date:</TextBlock>
+                        <DatePicker DisplayDate="{Binding Path=EndDate}" SelectedDate="{Binding Path=EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
+                    </StackPanel>
+
+                    <DVC:Chart Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4">
+                        <DVC:Chart.Series>
+                            <DVC:PieSeries Title="Expenses" ItemsSource="{Binding Path=DataPoints}" IndependentValueBinding="{Binding Path=Name}" DependentValueBinding="{Binding Path=Value}">
+                                
+                            </DVC:PieSeries>
+                        </DVC:Chart.Series>
+                    </DVC:Chart>
+                    
+                </Grid>
+            </TabItem>
+            
+        </TabControl>
     </Grid>
 </Window>
