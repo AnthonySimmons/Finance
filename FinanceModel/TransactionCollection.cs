@@ -30,14 +30,13 @@ namespace FinanceModel
             }
         }
 
-        public void Add(string description, double amount, DateTime date, TransactionType type, string payee)
+        public void Add(string description, double amount, DateTime date, string payee)
         {
             var transaction = new Transaction
             {
                 Amount = amount,
-                DateTime = date,
+                Date = date,
                 Description = description,
-                TransactionType = type,
                 Payee = payee,
             };
             Add(transaction);

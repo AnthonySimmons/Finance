@@ -13,12 +13,5 @@ namespace FinanceModel
         Expenses,
         Income,
     }
-
-    public enum TransactionType
-    {
-        Unknown,
-        Debit,
-        Credit,
-    }
-
+    
 }

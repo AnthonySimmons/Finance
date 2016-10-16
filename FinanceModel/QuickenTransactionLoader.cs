@@ -32,13 +32,9 @@ namespace FinanceModel
 
             foreach(var transaction in doc.BankTransactions)
             {
-                TransactionType type;
-                Enum.TryParse(transaction.Number, out type);
-
                 double amount = (double)transaction.Amount;
                 total += amount;
-                expenses.Add(transaction.Memo, amount, transaction.Date, type, transaction.Payee);
-                
+                expenses.Add(transaction.Memo, amount, transaction.Date, transaction.Payee);   
             }
             return expenses;
         }

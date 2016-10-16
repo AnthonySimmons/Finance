@@ -55,12 +55,12 @@ namespace FinanceModel.Models
      
         public DateTime GetEarliestTransaction()
         {
-            return Transactions.OrderBy(t => t.DateTime).FirstOrDefault().DateTime;
+            return Transactions.OrderBy(t => t.Date).FirstOrDefault().Date;
         }
 
         public DateTime GetLatestTransaction()
         {
-            return Transactions.OrderByDescending(t => t.DateTime).FirstOrDefault().DateTime;
+            return Transactions.OrderByDescending(t => t.Date).FirstOrDefault().Date;
         }
 
     }

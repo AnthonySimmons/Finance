@@ -13,7 +13,7 @@ namespace Finance.ViewModels
             {
                 dataPoint = new LineChartDataPoint
                 {
-                    X = transaction.DateTime,
+                    X = transaction.Date,
                     Y = total,
                 };
             }

@@ -28,12 +28,12 @@ namespace Finance.DataFilters
         protected virtual IEnumerable<Transaction> FilterTransactions(IEnumerable<Transaction> transactions, DateTime startDate, DateTime endDate)
         {
             transactions = transactions.Where(t => ShouldInclude(t, startDate, endDate));
-            return transactions.OrderBy(t => t.DateTime);
+            return transactions.OrderBy(t => t.Date);
         }
 
         protected virtual bool ShouldInclude(Transaction transaction, DateTime startDate, DateTime endDate)
         {
-            return !IsTransfer(transaction) && IsInDateRange(transaction.DateTime, startDate, endDate);
+            return !IsTransfer(transaction) && IsInDateRange(transaction.Date, startDate, endDate);
         }
 
         private bool IsTransfer(Transaction transaction)
