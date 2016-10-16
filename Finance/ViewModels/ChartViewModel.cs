@@ -13,7 +13,7 @@ namespace Finance.ViewModels
 {
     public abstract class ChartViewModel : ViewModelBase
     {
-        protected ReportModel _dataModel;
+        protected DataModel _dataModel;
 
 
         private DateTime _startDate;
@@ -29,7 +29,7 @@ namespace Finance.ViewModels
                 {
                     _startDate = value;
                     OnPropertyChanged(nameof(StartDate));
-                    OnPropertyChanged(nameof(StartOADate));
+                    LoadDataPoints();
                 }
             }
         }
@@ -47,29 +47,11 @@ namespace Finance.ViewModels
                 {
                     _endDate = value;
                     OnPropertyChanged(nameof(EndDate));
-                    OnPropertyChanged(nameof(EndOADate));
+                    LoadDataPoints();
                 }
             }
         }
-
-        public double StartOADate
-        {
-            get
-            {
-                return StartDate.ToOADate();
-            }
-            set { OnPropertyChanged(nameof(StartOADate)); }
-        }
-
-        public double EndOADate
-        {
-            get
-            {
-                return EndDate.ToOADate();
-            }
-            set { }
-        }
-
+        
         private ReportType _reportType;
         public ReportType ReportType
         {
@@ -110,11 +92,11 @@ namespace Finance.ViewModels
 
         public ChartViewModel()
         {
-            _dataModel = new ReportModel(new QuickenTransactionLoader());
+            _dataModel = new DataModel(new QuickenTransactionLoader());
             LoadDataFromFolder(Config.ExpensesDirectoryPath);
-            
-            StartDate = new DateTime(2016, 10, 1);
-            EndDate = DateTime.Now;
+
+            StartDate = _dataModel.GetEarliestTransaction();
+            EndDate = _dataModel.GetLatestTransaction();
             ReportType = ReportType.Total;
         }
 

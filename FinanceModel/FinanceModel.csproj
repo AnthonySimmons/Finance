@@ -63,7 +63,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
-    <Compile Include="Models\ReportModel.cs" />
+    <Compile Include="Models\DataModel.cs" />
     <Compile Include="QuickenTransactionLoader.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="ITransactionLoader.cs" />

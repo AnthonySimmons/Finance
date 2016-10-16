@@ -24,7 +24,7 @@ namespace Finance.ViewModels
 
         private void LoadTransactions()
         {
-            _dataModel = new ReportModel(new QuickenTransactionLoader());
+            _dataModel = new DataModel(new QuickenTransactionLoader());
             LoadDataFromFolder(Config.ExpensesDirectoryPath);
         }
         
@@ -35,10 +35,11 @@ namespace Finance.ViewModels
             DataFilter filter = GetFilter(ReportType);
             DataPoints.Clear();
 
-            //Add an empty data point to start at the origin.
             var dataPoints = new List<LineChartDataPoint>();
 
-            dataPoints.Add(new LineChartDataPoint());
+            //Add an empty data point to start at the origin.
+            dataPoints.Add(new LineChartDataPoint { X = StartDate, Y = 0, });
+
             dataPoints.AddRange(filter.Filter<LineChartDataPoint>(_dataModel.Transactions, StartDate, EndDate));
             foreach (var dataPoint in dataPoints)
             {

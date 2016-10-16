@@ -67,16 +67,15 @@
                         <DatePicker DisplayDate="{Binding Path=EndDate}" SelectedDate="{Binding Path=EndDate, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"></DatePicker>
                     </StackPanel>
 
-                    <sparrow:SparrowChart Grid.Row="3" Grid.ColumnSpan="4">
-                        <sparrow:SparrowChart.XAxis>
-                            <sparrow:DateTimeXAxis ShowMajorTicks="True" MinValue="{Binding StartOADate, UpdateSourceTrigger=PropertyChanged}" MaxValue="{Binding EndOADate, UpdateSourceTrigger=PropertyChanged}"/>
-                        </sparrow:SparrowChart.XAxis>
-                        <sparrow:SparrowChart.YAxis>
-                            <sparrow:LinearYAxis />
-                        </sparrow:SparrowChart.YAxis>
-                        <sparrow:LineSeries PointsSource="{Binding DataPoints}" XPath="X" YPath="Y"/>
-                    </sparrow:SparrowChart>
-
+                    <DVC:Chart Grid.Row="3" Grid.ColumnSpan="4">
+                        <DVC:Chart.Series>
+                            <DVC:LineSeries Title="Expenses" ItemsSource="{Binding Path=DataPoints}" IndependentValueBinding="{Binding Path=X}" DependentValueBinding="{Binding Path=Y}">
+                                <DVC:LineSeries.IndependentAxis>
+                                    <DVC:DateTimeAxis Orientation="X" Title="Date"></DVC:DateTimeAxis>
+                                </DVC:LineSeries.IndependentAxis>
+                            </DVC:LineSeries>
+                        </DVC:Chart.Series>
+                    </DVC:Chart>
                 </Grid>
             </TabItem>
 

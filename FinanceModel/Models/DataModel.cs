@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System;
 
 namespace FinanceModel.Models
 {
-    public class ReportModel
+    public class DataModel
     {
         private ITransactionLoader _transactionLoader;
 
         private TransactionCollection _transactions = new TransactionCollection();
 
-        public ReportModel(ITransactionLoader transactionLoader)
+        public DataModel(ITransactionLoader transactionLoader)
         {
             _transactionLoader = transactionLoader;
         }
@@ -51,6 +52,16 @@ namespace FinanceModel.Models
         }
 
         public TransactionCollection Transactions => _transactions;
-        
+     
+        public DateTime GetEarliestTransaction()
+        {
+            return Transactions.OrderBy(t => t.DateTime).FirstOrDefault().DateTime;
+        }
+
+        public DateTime GetLatestTransaction()
+        {
+            return Transactions.OrderByDescending(t => t.DateTime).FirstOrDefault().DateTime;
+        }
+
     }
 }
