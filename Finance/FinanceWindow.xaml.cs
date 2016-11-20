@@ -19,12 +19,12 @@ using System.Windows.Shapes;
 namespace Finance
 {
     /// <summary>
-    /// Interaction logic for MainWindow.xaml
+    /// Interaction logic for FinanceWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class FinanceWindow : Window
     {
         
-        public MainWindow()
+        public FinanceWindow()
         {
             InitializeComponent();
         }

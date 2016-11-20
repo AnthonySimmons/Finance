@@ -106,7 +106,7 @@
     <Compile Include="ViewModels\PieChartViewModel.cs" />
     <Compile Include="ViewModels\LineChartViewModel.cs" />
     <Compile Include="ViewModels\ViewModelBase.cs" />
-    <Page Include="MainWindow.xaml">
+    <Page Include="FinanceWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -114,8 +114,8 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
+    <Compile Include="FinanceWindow.xaml.cs">
+      <DependentUpon>FinanceWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
