@@ -38,7 +38,7 @@ namespace FinanceModel.Models
                 //TODO Log.
             }
         }
-
+        
         public void LoadDataFromFile(string dataFilePath)
         {
             try

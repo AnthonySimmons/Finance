@@ -35,7 +35,7 @@
             </Menu>
         </StackPanel>
         <GridSplitter Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" />
-        <DataGrid Grid.Row="1" Grid.Column="0" DataContext="{StaticResource ResourceKey=DataGridViewModel}" ItemsSource="{Binding Path=Transactions}">
+        <DataGrid Name="DataViewGrid" Grid.Row="1" Grid.Column="0" DataContext="{StaticResource ResourceKey=DataGridViewModel}" ItemsSource="{Binding Path=Transactions}">
             
             <DataGrid.RowDetailsTemplate>
                 <DataTemplate>
@@ -46,7 +46,7 @@
         
         <TabControl Grid.Row="1" Grid.Column="2">
             <TabItem Header="Line" Width="200" Height="22" Margin="0,-2,0,0" VerticalAlignment="Top">
-                <Grid DataContext="{StaticResource ResourceKey=LineChartViewModel}">
+                <Grid DataContext="{StaticResource ResourceKey=LineChartViewModel}" Name="LineChartGrid">
                     <Grid.Resources>
                         <local:EnumBoolConverter x:Key="enumBooleanConverter" />
                     </Grid.Resources>
@@ -95,7 +95,7 @@
             </TabItem>
 
             <TabItem Header="Pie" Width="200">
-                <Grid DataContext="{StaticResource ResourceKey=PieChartViewModel}">
+                <Grid DataContext="{StaticResource ResourceKey=PieChartViewModel}" Name="PieChartGrid">
                     <Grid.Resources>
                         <local:EnumBoolConverter x:Key="enumBooleanConverter" />
                     </Grid.Resources>

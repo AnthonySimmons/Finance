@@ -20,11 +20,11 @@ namespace Finance.ViewModels
             }
             set
             {
-                if(_transactions != value)
+                if (_transactions != value)
                 {
                     _transactions = value;
                     OnPropertyChanged(nameof(Transactions));
-                }                    
+                }
             }
         }
 
@@ -37,6 +37,13 @@ namespace Finance.ViewModels
             _transactions = new ObservableCollection<Transaction>(_dataModel.Transactions.OrderBy(t => t.Date));
         }
 
-
+        public void LoadDataGridFromFile(params string[] filePaths)
+        {
+            foreach (string filePath in filePaths)
+            {
+                _dataModel.LoadDataFromFile(filePath);
+            }
+            Transactions = new ObservableCollection<Transaction>(_dataModel.Transactions.OrderBy(t => t.Date));
+        }
     }
 }

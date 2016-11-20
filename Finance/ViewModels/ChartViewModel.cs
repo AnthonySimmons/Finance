@@ -112,7 +112,7 @@ namespace Finance.ViewModels
             LoadDataPoints();
         }
 
-
+        
         public void LoadDataFromFiles(params string[] filePaths)
         {
             _dataModel.Clear();
