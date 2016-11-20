@@ -108,6 +108,8 @@ namespace Finance.ViewModels
             foreach (var filepath in filePaths)
             {
                 _dataModel.LoadDataFromFolder(filepath);
+                StartDate = _dataModel.GetEarliestTransaction();
+                EndDate = _dataModel.GetLatestTransaction();
             }
             LoadDataPoints();
         }
@@ -119,6 +121,8 @@ namespace Finance.ViewModels
             foreach (var filepath in filePaths)
             {
                 _dataModel.LoadDataFromFile(filepath);
+                StartDate = _dataModel.GetEarliestTransaction();
+                EndDate = _dataModel.GetLatestTransaction();
             }
             LoadDataPoints();
         }
