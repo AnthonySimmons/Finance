@@ -1,5 +1,4 @@
-﻿using FinanceModel;
-using FinanceModel.Models;
+﻿using FinanceModel.Models;
 using System.Collections.ObjectModel;
 using System.Linq;
 
@@ -26,20 +25,24 @@ namespace Finance.ViewModels
 
         private DataModel _dataModel;
 
-        public DataGridViewModel()
+        public DataGridViewModel(DataModel dataModel)
         {
-            _dataModel = new DataModel(new QuickenTransactionLoader());
+            _dataModel = dataModel;
 
+            _dataModel.PropertyChanged += _dataModel_PropertyChanged;
             _transactions = new ObservableCollection<Transaction>(_dataModel.Transactions.OrderBy(t => t.Date));
+            _transactions.CollectionChanged += _transactions_CollectionChanged;
         }
 
-        public void LoadDataGridFromFile(params string[] filePaths)
+        private void _dataModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            foreach (string filePath in filePaths)
-            {
-                _dataModel.LoadDataFromFile(filePath);
-            }
             Transactions = new ObservableCollection<Transaction>(_dataModel.Transactions.OrderBy(t => t.Date));
         }
+
+        private void _transactions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            Transactions = new ObservableCollection<Transaction>(_dataModel.Transactions.OrderBy(t => t.Date));
+        }
+        
     }
 }

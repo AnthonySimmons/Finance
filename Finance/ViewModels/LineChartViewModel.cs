@@ -1,21 +1,18 @@
 ﻿using Finance.DataFilters;
-using Finance.ViewModels;
-using FinanceModel;
 using FinanceModel.Models;
-using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Finance.ViewModels
 {
 
     public class LineChartViewModel : ChartViewModel
     {           
-        
+        public LineChartViewModel(DataModel dataModel)
+               : base(dataModel)
+        {
+
+        }
+
         protected override void LoadDataPoints()
         {
             DataFilter filter = GetFilter(ReportType);

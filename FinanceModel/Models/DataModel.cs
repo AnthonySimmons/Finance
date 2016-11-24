@@ -1,21 +1,30 @@
-﻿using System.IO;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Linq;
 using System;
+using System.ComponentModel;
 
 namespace FinanceModel.Models
 {
-    public class DataModel
+    public class DataModel : INotifyPropertyChanged
     {
         private ITransactionLoader _transactionLoader;
 
         private TransactionCollection _transactions = new TransactionCollection();
 
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public DateTime StartDate { get; set; }
+
+        public DateTime EndDate { get; set; }
+
         public DataModel(ITransactionLoader transactionLoader)
         {
             _transactionLoader = transactionLoader;
+            _transactions.CollectionChanged += _transactions_CollectionChanged;
+        }
+
+        private void _transactions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            OnPropertyChanged(nameof(Transactions));
         }
 
         public void Clear()
@@ -29,6 +38,8 @@ namespace FinanceModel.Models
             try
             {
                 Transactions.AddRange(_transactionLoader.Load(dataFilePath));
+                StartDate = Transactions.StartDate;
+                EndDate = Transactions.EndDate;
             }
             catch (Exception ex)
             {
@@ -58,6 +69,11 @@ namespace FinanceModel.Models
                 val = tran.Date;
             }
             return val;
+        }
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
 
     }

@@ -1,10 +1,4 @@
-﻿using FinanceModel;
-using FinanceModel.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using FinanceModel.Models;
 
 namespace Finance.DataFilters
 {
@@ -12,7 +6,7 @@ namespace Finance.DataFilters
     {
         protected override bool ShouldInclude(Transaction transaction)
         {
-            return transaction.Amount < 0;
+            return transaction.Amount < 0 && transaction.IsIncluded;
         }
     }
 

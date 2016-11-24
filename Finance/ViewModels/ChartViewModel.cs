@@ -86,15 +86,27 @@ namespace Finance.ViewModels
 
 
 
-        public ChartViewModel()
+        public ChartViewModel(DataModel dataModel)
         {
-            _dataModel = new DataModel(new QuickenTransactionLoader());
-            
-            StartDate = _dataModel.GetEarliestTransaction();
-            EndDate = _dataModel.GetLatestTransaction();
+            _dataModel = dataModel;
+            _dataModel.PropertyChanged += _dataModel_PropertyChanged;
+
+            ResetDates();
+
             ReportType = ReportType.Total;
         }
 
+        public void ResetDates()
+        {
+            StartDate = _dataModel.GetEarliestTransaction();
+            EndDate = _dataModel.GetLatestTransaction();
+        }
+
+        private void _dataModel_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+        {
+            LoadDataPoints();            
+        }
+        
         protected abstract void LoadDataPoints();
                 
         public void LoadDataFromFiles(params string[] filePaths)
@@ -103,9 +115,9 @@ namespace Finance.ViewModels
             foreach (var filepath in filePaths)
             {
                 _dataModel.LoadDataFromFile(filepath);
-                StartDate = _dataModel.GetEarliestTransaction();
-                EndDate = _dataModel.GetLatestTransaction();
             }
+            StartDate = _dataModel.StartDate;
+            EndDate = _dataModel.EndDate;
             LoadDataPoints();
         }
 

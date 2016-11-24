@@ -1,34 +1,18 @@
 ﻿using FinanceModel.Models;
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 
 namespace FinanceModel
 {
-    public class TransactionCollection : IList<Transaction>
-    {
-        private IList<Transaction> Items { get; set; } = new List<Transaction>();
-
-        public double RunningTotal { get; set; }
-
-        public int Count => Items.Count;
-
+    public class TransactionCollection :  ObservableCollection<Transaction>, IList<Transaction>
+    {        
         public bool IsReadOnly => false;
+        
+        public DateTime StartDate { get; set; }
 
-        public Transaction this[int index]
-        {
-            get
-            {
-                return Items[index];
-            }
-            set
-            {
-                Items[index] = value;
-            }
-        }
+        public DateTime EndDate { get; set; }
 
         public void Add(string description, double amount, DateTime date, string payee)
         {
@@ -39,58 +23,23 @@ namespace FinanceModel
                 Description = description,
                 Payee = payee,
             };
+            transaction.PropertyChanged += Transaction_PropertyChanged;
             Add(transaction);
+
+            if(StartDate > date)
+            {
+                date = StartDate;
+            }
+
+            if(EndDate < date)
+            {
+                date = EndDate;
+            }
         }
 
-        public void Add(Transaction transaction)
+        private void Transaction_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            RunningTotal += transaction.Amount;
-            Items.Add(transaction);
-        }
-
-        public int IndexOf(Transaction item)
-        {
-            return Items.IndexOf(item);
-        }
-
-        public void Insert(int index, Transaction item)
-        {
-            Items.Insert(index, item);
-        }
-
-        public void RemoveAt(int index)
-        {
-            Items.RemoveAt(index);
-        }
-
-        public void Clear()
-        {
-            Items.Clear();
-        }
-
-        public bool Contains(Transaction item)
-        {
-            return Items.Contains(item);
-        }
-
-        public void CopyTo(Transaction[] array, int arrayIndex)
-        {
-            Items.CopyTo(array, arrayIndex);
-        }
-
-        public bool Remove(Transaction item)
-        {
-            return Items.Remove(item);
-        }
-
-        public IEnumerator<Transaction> GetEnumerator()
-        {
-            return Items.GetEnumerator();
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
         public void AddRange(IEnumerable<Transaction> items)

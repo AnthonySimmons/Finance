@@ -54,11 +54,7 @@ namespace Finance
                     }
                 }
 
-                var dataFiles = fileNames.ToArray();
-                
-                LoadLineChart(dataFiles);
-                LoadPieChart(dataFiles);
-                LoadDataGrid(dataFiles);
+                LoadData(fileNames.ToArray());                
             }
             SetupFileAssociations();
         }
@@ -92,33 +88,13 @@ namespace Finance
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Multiselect = true;
             fileDialog.ShowDialog();
-
-            LoadLineChart(fileDialog.FileNames);
-            LoadPieChart(fileDialog.FileNames);
-            LoadDataGrid(fileDialog.FileNames);
+            LoadData(fileDialog.FileNames);
         }
 
-        private LineChartViewModel LoadLineChart(string [] filePaths)
-        {
-            Grid grid = (Grid)FindName("LineChartGrid");
-            LineChartViewModel viewModel = (LineChartViewModel)grid.DataContext;
-            viewModel.LoadDataFromFiles(filePaths);
-            return viewModel;
-        }
-
-        private void LoadPieChart(string [] filePaths)
-        {
-            Grid grid = (Grid)FindName("PieChartGrid");
-            PieChartViewModel viewModel = (PieChartViewModel)grid.DataContext;
-            viewModel.LoadDataFromFiles(filePaths);
-        }
-
-        private void LoadDataGrid(string [] filePaths)
-        {
-            DataGrid grid = (DataGrid)FindName("DataViewGrid");
-            DataGridViewModel viewModel = (DataGridViewModel)grid.DataContext;
-            viewModel.LoadDataGridFromFile(filePaths);
-        }
-                       
+        private void LoadData(string [] fileNames)
+        { 
+            ApplicationViewModel appViewModel = (ApplicationViewModel)DataContext;
+            appViewModel.LoadData(fileNames);
+        }               
     }
 }

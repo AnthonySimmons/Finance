@@ -1,18 +1,88 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace FinanceModel.Models
 {
-    public class Transaction
+    public class Transaction : INotifyPropertyChanged
     {
-        public DateTime Date { get; set; }
-    
-        public string Description { get; set; }
+        private DateTime _date;
+        public DateTime Date
+        {
+            get { return _date; }
+            set
+            {
+                if (value != _date)
+                {
+                    _date = value;
+                    OnPropertyChanged(nameof(Date));
+                }
+            }
+        }
 
-        public double Amount { get; set; }
-        
-        public string Payee { get; set; }
+        private string _description;
+        public string Description
+        {
+            get { return _description; }
+            set
+            {
+                if (value != _description)
+                {
+                    _description = value;
+                    OnPropertyChanged(nameof(Description));
+                }
+            }
+        }
 
-        public bool Included { get; set; }
+        private double _amount;
+        public double Amount
+        {
+            get { return _amount; }
+            set
+            {
+                if (value != _amount)
+                {
+                    _amount = value;
+                    OnPropertyChanged(nameof(Amount));
+                }
+            }
+        }
+
+        private string _payee;
+        public string Payee
+        {
+            get { return _payee; }
+            set
+            {
+                if (value != _payee)
+                {
+                    _payee = value;
+                    OnPropertyChanged(nameof(Payee));
+                }
+            }
+        }
+
+        private bool _isIncluded = true;
+        public bool IsIncluded
+        {
+            get
+            {
+                return _isIncluded;
+            }
+            set
+            {
+                if (value != _isIncluded)
+                {
+                    _isIncluded = value;
+                    OnPropertyChanged(nameof(IsIncluded));
+                }
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected virtual void OnPropertyChanged(string propertyName)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
     }
-    
 }

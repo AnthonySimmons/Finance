@@ -33,7 +33,7 @@ namespace Finance.DataFilters
 
         protected virtual bool ShouldInclude(Transaction transaction, DateTime startDate, DateTime endDate)
         {
-            return !IsTransfer(transaction) && IsInDateRange(transaction.Date, startDate, endDate);
+            return !IsTransfer(transaction) && IsInDateRange(transaction.Date, startDate, endDate) && transaction.IsIncluded;
         }
 
         private bool IsTransfer(Transaction transaction)
