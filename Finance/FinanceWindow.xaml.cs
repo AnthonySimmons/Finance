@@ -72,7 +72,8 @@ namespace Finance
                 {
                     string exeName = AppDomain.CurrentDomain.FriendlyName;
                     string exePath = System.Reflection.Assembly.GetEntryAssembly().Location;
-                    string errors = StaticSettings.CreateFileTypeAssociations(exeName, exePath);
+                    string iconPath = System.IO.Path.Combine(Environment.CurrentDirectory, "Resources", "Icon.bmp");
+                    string errors = StaticSettings.CreateFileTypeAssociations(exeName, exePath, iconPath);
                     if (!string.IsNullOrWhiteSpace(errors))
                     {
                         MessageBox.Show(errors);

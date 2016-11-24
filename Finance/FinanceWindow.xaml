@@ -10,6 +10,7 @@
         xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         mc:Ignorable="d"
         WindowState="Maximized"
+        Icon="Resources/Icon.bmp"
         Title="Finance" Height="600" Width="900">
     <Window.Resources>
         <vms:LineChartViewModel x:Key="LineChartViewModel" />

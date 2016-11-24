@@ -10,7 +10,7 @@ namespace FinanceModel.Settings
     {
         public const string QifFileExtension = ".qif";
 
-        public static string CreateFileTypeAssociations(string exeName, string exePath)
+        public static string CreateFileTypeAssociations(string exeName, string exePath, string iconPath)
         {
             string errors = string.Empty;
             
@@ -25,7 +25,7 @@ namespace FinanceModel.Settings
                 proc.StartInfo.Verb = "runas";
                 
                 //FileTypeAssociation.exe <ExeName> <ExePath> <FileTypeExtension>
-                proc.StartInfo.Arguments = $"\"{exeName}\" \"{exePath}\" \"{QifFileExtension}\"";
+                proc.StartInfo.Arguments = $"\"{exeName}\" \"{exePath}\" \"{QifFileExtension}\" \"{iconPath}\"";
                 proc.Start();
                 proc.WaitForExit();
 

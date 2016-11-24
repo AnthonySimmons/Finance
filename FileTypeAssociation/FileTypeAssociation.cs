@@ -26,7 +26,7 @@ namespace FileTypeAssociation
         }
         
         
-        public void Create(string exeName, string exePath)
+        public void Create(string exeName, string exePath, string iconPath)
         {
             if (!_fileAssociationInfo.Exists)
             {
@@ -34,12 +34,12 @@ namespace FileTypeAssociation
                 _fileAssociationInfo.ContentType = "application/x-qif";
                 _fileAssociationInfo.OpenWithList = new string[] { exeName };
             }
-
-            ProgramAssociationInfo programInfo = new ProgramAssociationInfo(ProgramId);
-            
-            if(!programInfo.Exists)
+                                    
+            if(!_programAssociationInfo.Exists)
             {
-                programInfo.Create("Quicken Interexchange Format", new ProgramVerb("Open", $"\"{exePath}\" \"%1\""));
+                _programAssociationInfo.Create("Quicken Interexchange Format", new ProgramVerb("Open", $"\"{exePath}\" \"%1\""));
+
+                _programAssociationInfo.DefaultIcon = new ProgramIcon(iconPath);
             }
         }
     }
