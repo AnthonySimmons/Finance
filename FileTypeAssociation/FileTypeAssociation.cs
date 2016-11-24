@@ -14,7 +14,6 @@ namespace FileTypeAssociation
         {
             _fileAssociationInfo = new FileAssociationInfo(fileExt);
             _programAssociationInfo = new ProgramAssociationInfo(ProgramId);
-
         }
 
         public bool Exists

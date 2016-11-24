@@ -14,22 +14,8 @@ namespace Finance.ViewModels
 {
 
     public class LineChartViewModel : ChartViewModel
-    {   
-
-        public LineChartViewModel() : base()
-        {
-            LoadTransactions();
-        }
+    {           
         
-
-        private void LoadTransactions()
-        {
-            _dataModel = new DataModel(new QuickenTransactionLoader());
-            LoadDataFromFolder(Config.ExpensesDirectoryPath);
-        }
-        
-
-
         protected override void LoadDataPoints()
         {
             DataFilter filter = GetFilter(ReportType);

@@ -4,10 +4,6 @@ using FinanceModel.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Finance.ViewModels
 {
@@ -93,28 +89,14 @@ namespace Finance.ViewModels
         public ChartViewModel()
         {
             _dataModel = new DataModel(new QuickenTransactionLoader());
-            LoadDataFromFolder(Config.ExpensesDirectoryPath);
-
+            
             StartDate = _dataModel.GetEarliestTransaction();
             EndDate = _dataModel.GetLatestTransaction();
             ReportType = ReportType.Total;
         }
 
         protected abstract void LoadDataPoints();
-
-        public void LoadDataFromFolder(params string[] filePaths)
-        {
-            _dataModel.Clear();
-            foreach (var filepath in filePaths)
-            {
-                _dataModel.LoadDataFromFolder(filepath);
-                StartDate = _dataModel.GetEarliestTransaction();
-                EndDate = _dataModel.GetLatestTransaction();
-            }
-            LoadDataPoints();
-        }
-
-        
+                
         public void LoadDataFromFiles(params string[] filePaths)
         {
             _dataModel.Clear();

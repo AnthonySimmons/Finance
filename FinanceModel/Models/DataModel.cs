@@ -22,22 +22,7 @@ namespace FinanceModel.Models
         {
             _transactions.Clear();
         }
-
-        public void LoadDataFromFolder(string dataDirectory)
-        {
-            try
-            {
-                var files = Directory.EnumerateFiles(dataDirectory);
-                foreach (var file in files)
-                {
-                    Transactions.AddRange(_transactionLoader.Load(file));
-                }
-            }
-            catch
-            {
-                //TODO Log.
-            }
-        }
+        
         
         public void LoadDataFromFile(string dataFilePath)
         {
@@ -45,9 +30,9 @@ namespace FinanceModel.Models
             {
                 Transactions.AddRange(_transactionLoader.Load(dataFilePath));
             }
-            catch
+            catch (Exception ex)
             {
-
+                Logger.Logs.Instance.Log(ex);
             }
         }
 

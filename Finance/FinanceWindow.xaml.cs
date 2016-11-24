@@ -91,7 +91,6 @@ namespace Finance
         {
             OpenFileDialog fileDialog = new OpenFileDialog();
             fileDialog.Multiselect = true;
-            fileDialog.InitialDirectory = Config.DataDirectoryPath;
             fileDialog.ShowDialog();
 
             LoadLineChart(fileDialog.FileNames);

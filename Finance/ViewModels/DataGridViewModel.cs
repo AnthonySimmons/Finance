@@ -1,11 +1,7 @@
 ﻿using FinanceModel;
 using FinanceModel.Models;
-using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Finance.ViewModels
 {
@@ -33,7 +29,7 @@ namespace Finance.ViewModels
         public DataGridViewModel()
         {
             _dataModel = new DataModel(new QuickenTransactionLoader());
-            _dataModel.LoadDataFromFolder(Config.ExpensesDirectoryPath);
+
             _transactions = new ObservableCollection<Transaction>(_dataModel.Transactions.OrderBy(t => t.Date));
         }
 

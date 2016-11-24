@@ -11,6 +11,8 @@ namespace FinanceModel.Models
         public double Amount { get; set; }
         
         public string Payee { get; set; }
+
+        public bool Included { get; set; }
     }
     
 }
