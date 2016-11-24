@@ -5,7 +5,7 @@ namespace Finance.ViewModels
 {
     class DataPointFactory
     {
-        internal static DataPoint GetDataPoint(Type dataPointType, Transaction transaction, double total)
+        internal static DataPoint GetDataPoint(Type dataPointType, Transaction transaction, decimal total)
         {
             DataPoint dataPoint = null;
             

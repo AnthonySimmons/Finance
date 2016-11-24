@@ -14,15 +14,15 @@ namespace FinanceModel
 
         public DateTime EndDate { get; set; }
 
-        public void Add(string description, double amount, DateTime date, string payee)
+        public void Add(string description, decimal amount, DateTime date, string payee, Func<Transaction> transactionFactory)
         {
-            var transaction = new Transaction
-            {
-                Amount = amount,
-                Date = date,
-                Description = description,
-                Payee = payee,
-            };
+            var transaction = transactionFactory();
+
+            transaction.Amount = amount;
+            transaction.Date = date;
+            transaction.Description = description;
+            transaction.Payee = payee;
+            
             transaction.PropertyChanged += Transaction_PropertyChanged;
             Add(transaction);
 

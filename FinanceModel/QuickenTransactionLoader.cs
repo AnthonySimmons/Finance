@@ -1,8 +1,10 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Collections.Generic;
 using Hazzik.Qif;
 using Hazzik.Qif.Transactions;
+using System;
+using Transaction = FinanceModel.Models.Transaction;
+using FinanceModel.Models;
 
 namespace FinanceModel
 {
@@ -29,21 +31,17 @@ namespace FinanceModel
         {
             var expenses = new TransactionCollection();
 
-            AddTransactions(doc.BankTransactions, expenses);
-            AddTransactions(doc.CreditCardTransactions, expenses);
+            AddTransactions(doc.BankTransactions, expenses, () => new BankTransaction());
+            AddTransactions(doc.CreditCardTransactions, expenses, () => new CreditCardTransaction());
 
             return expenses;
         }
 
-        private void AddTransactions(IEnumerable<BasicTransaction> source, TransactionCollection target)
+        private void AddTransactions(IEnumerable<BasicTransaction> source, TransactionCollection target, Func<Transaction> transactionFactory)
         {
-            double total = 0;
-
             foreach (var transaction in source)
             {
-                double amount = (double)transaction.Amount;
-                total += amount;
-                target.Add(transaction.Memo, amount, transaction.Date, transaction.Payee);
+                target.Add(transaction.Memo, transaction.Amount, transaction.Date, transaction.Payee, transactionFactory);
             }
         }
              

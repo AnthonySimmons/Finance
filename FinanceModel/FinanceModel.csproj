@@ -63,11 +63,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Enums.cs" />
+    <Compile Include="ITransactionSaver.cs" />
+    <Compile Include="Models\BankTransaction.cs" />
+    <Compile Include="Models\CreditCardTransaction.cs" />
     <Compile Include="Models\DataModel.cs" />
     <Compile Include="QuickenTransactionLoader.cs" />
     <Compile Include="Models\Transaction.cs" />
     <Compile Include="ITransactionLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QuickenTransactionSaver.cs" />
     <Compile Include="Settings\StaticSettings.cs" />
     <Compile Include="TransactionCollection.cs" />
   </ItemGroup>

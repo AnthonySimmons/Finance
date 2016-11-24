@@ -3,7 +3,7 @@ using System.ComponentModel;
 
 namespace FinanceModel.Models
 {
-    public class Transaction : INotifyPropertyChanged
+    public abstract class Transaction : INotifyPropertyChanged
     {
         private DateTime _date;
         public DateTime Date
@@ -33,8 +33,8 @@ namespace FinanceModel.Models
             }
         }
 
-        private double _amount;
-        public double Amount
+        private decimal _amount;
+        public decimal Amount
         {
             get { return _amount; }
             set
@@ -61,22 +61,23 @@ namespace FinanceModel.Models
             }
         }
 
-        private bool _isIncluded = true;
-        public bool IsIncluded
+        private bool _included = true;
+        public bool Included
         {
             get
             {
-                return _isIncluded;
+                return _included;
             }
             set
             {
-                if (value != _isIncluded)
+                if (value != _included)
                 {
-                    _isIncluded = value;
-                    OnPropertyChanged(nameof(IsIncluded));
+                    _included = value;
+                    OnPropertyChanged(nameof(Included));
                 }
             }
         }
+        
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -85,4 +86,5 @@ namespace FinanceModel.Models
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
     }
+    
 }

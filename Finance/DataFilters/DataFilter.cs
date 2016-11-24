@@ -33,7 +33,7 @@ namespace Finance.DataFilters
 
         protected virtual bool ShouldInclude(Transaction transaction, DateTime startDate, DateTime endDate)
         {
-            return !IsTransfer(transaction) && IsInDateRange(transaction.Date, startDate, endDate) && transaction.IsIncluded;
+            return !IsTransfer(transaction) && IsInDateRange(transaction.Date, startDate, endDate) && transaction.Included;
         }
 
         private bool IsTransfer(Transaction transaction)
@@ -50,7 +50,7 @@ namespace Finance.DataFilters
 
         protected virtual void ProcessTransactions<T>(IEnumerable<Transaction> transactions, IList<T> dataPoints) where T : DataPoint
         {
-            double total = 0;
+            decimal total = 0;
             foreach (var transaction in transactions)
             {
                 if (!ShouldInclude(transaction))

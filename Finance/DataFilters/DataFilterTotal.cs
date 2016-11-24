@@ -6,7 +6,7 @@ namespace Finance.DataFilters
     {
         protected override bool ShouldInclude(Transaction transaction)
         {
-            return transaction.IsIncluded;
+            return transaction.Included;
         }
     }
 }

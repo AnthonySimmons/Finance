@@ -16,12 +16,21 @@ namespace Finance
     {
 
         public static RoutedCommand OpenCommand = new RoutedCommand();
-               
+
+        public static RoutedCommand SaveCommand = new RoutedCommand();       
+
         public FinanceWindow()
         {
             InitializeComponent();
             Loaded += FinanceWindow_Loaded;
             OpenCommand.InputGestures.Add(new KeyGesture(Key.O, ModifierKeys.Control));
+            SaveCommand.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
+        }
+
+
+        private void SaveCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            SaveFiles();
         }
 
         private void OpenCommandExecuted(object sender, ExecutedRoutedEventArgs e)
@@ -78,6 +87,11 @@ namespace Finance
             Environment.Exit(0);
         }
 
+        private void MenuItem_Save_Click(object sender, RoutedEventArgs e)
+        {
+            SaveFiles();
+        }
+
         private void MenuItem_Open_Click(object sender, RoutedEventArgs e)
         {
             OpenFiles();
@@ -90,11 +104,29 @@ namespace Finance
             fileDialog.ShowDialog();
             LoadData(fileDialog.FileNames);
         }
+              
 
         private void LoadData(string [] fileNames)
         { 
             ApplicationViewModel appViewModel = (ApplicationViewModel)DataContext;
             appViewModel.LoadData(fileNames);
-        }               
+        }
+
+        private void SaveFiles()
+        {
+            SaveFileDialog fileDialog = new SaveFileDialog();
+            fileDialog.Filter = ".qif|Quicken Interexchange Format";
+            fileDialog.CheckFileExists = true;
+            fileDialog.DefaultExt = ".qif";
+            fileDialog.ShowDialog();
+            SaveData(fileDialog.FileName);
+        }
+
+        private void SaveData(string fileName)
+        {
+            ApplicationViewModel appViewModel = (ApplicationViewModel)DataContext;
+            appViewModel.SaveData(fileName);
+        }
+                       
     }
 }

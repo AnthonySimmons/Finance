@@ -12,7 +12,7 @@ namespace Finance.DataFilters
     {
         protected override bool ShouldInclude(Transaction transaction)
         {
-            return transaction.Amount > 0 && transaction.IsIncluded;
+            return transaction.Amount > 0 && transaction.Included;
         }
     }
 }

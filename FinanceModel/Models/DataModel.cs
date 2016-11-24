@@ -8,6 +8,8 @@ namespace FinanceModel.Models
     {
         private ITransactionLoader _transactionLoader;
 
+        private ITransactionSaver _transactionSaver;
+
         private TransactionCollection _transactions = new TransactionCollection();
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -16,9 +18,10 @@ namespace FinanceModel.Models
 
         public DateTime EndDate { get; set; }
 
-        public DataModel(ITransactionLoader transactionLoader)
+        public DataModel(ITransactionLoader transactionLoader, ITransactionSaver transactionSaver)
         {
             _transactionLoader = transactionLoader;
+            _transactionSaver = transactionSaver;
             _transactions.CollectionChanged += _transactions_CollectionChanged;
         }
 
@@ -40,6 +43,18 @@ namespace FinanceModel.Models
                 Transactions.AddRange(_transactionLoader.Load(dataFilePath));
                 StartDate = Transactions.StartDate;
                 EndDate = Transactions.EndDate;
+            }
+            catch (Exception ex)
+            {
+                Logger.Logs.Instance.Log(ex);
+            }
+        }
+
+        public void SaveDataToFile(string dataFilePath)
+        {
+            try
+            {
+                _transactionSaver.Save(_transactions, dataFilePath);
             }
             catch (Exception ex)
             {

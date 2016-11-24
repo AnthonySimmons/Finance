@@ -6,6 +6,6 @@ namespace Finance.ViewModels
     {
         public DateTime X { get; set; }
 
-        public double Y { get; set; }
+        public decimal Y { get; set; }
     }
 }

@@ -16,6 +16,7 @@
         >
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:FinanceWindow.OpenCommand}" Executed="OpenCommandExecuted"/>
+        <CommandBinding Command="{x:Static local:FinanceWindow.SaveCommand}" Executed="SaveCommandExecuted"/>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -32,6 +33,7 @@
             <Menu DockPanel.Dock="Top" Width="Auto">
                 <MenuItem Header="_File">
                     <MenuItem Header="_Open" Click="MenuItem_Open_Click" InputGestureText="Ctrl+O"/>
+                    <MenuItem Header="_Save" Click="MenuItem_Save_Click" InputGestureText="Ctrl+S"/>
                     <MenuItem Header="_Exit" Click="MenuItem_Exit_Click"/>
                 </MenuItem>
             </Menu>

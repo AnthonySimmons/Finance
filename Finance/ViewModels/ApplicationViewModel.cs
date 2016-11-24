@@ -38,8 +38,9 @@ namespace Finance.ViewModels
 
         public ApplicationViewModel()
         {
-            QuickenTransactionLoader loader = new QuickenTransactionLoader(); 
-            _dataModel = new DataModel(loader);
+            QuickenTransactionLoader loader = new QuickenTransactionLoader();
+            QuickenTransactionSaver saver = new QuickenTransactionSaver(); 
+            _dataModel = new DataModel(loader, saver);
             _lineChartViewModel = new LineChartViewModel(_dataModel);
             _pieChartViewModel = new PieChartViewModel(_dataModel);
             _dataGridViewModel = new DataGridViewModel(_dataModel);
@@ -54,6 +55,11 @@ namespace Finance.ViewModels
             }
             _lineChartViewModel.ResetDates();
             _pieChartViewModel.ResetDates();
+        }
+
+        public void SaveData(string fileName)
+        {
+            _dataModel.SaveDataToFile(fileName);
         }
 
     }
