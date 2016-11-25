@@ -10,7 +10,7 @@ namespace FinanceModel
 {
     public class QuickenTransactionLoader : ITransactionLoader
     {
-        public TransactionCollection Load(string filePath)
+        public IEnumerable<Transaction> Load(string filePath)
         {
             QifDocument doc = GetQif(filePath);
 
@@ -27,9 +27,9 @@ namespace FinanceModel
             return doc;
         }
 
-        protected TransactionCollection GetExpenseModels(QifDocument doc)
+        protected IEnumerable<Transaction> GetExpenseModels(QifDocument doc)
         {
-            var expenses = new TransactionCollection();
+            var expenses = new List<Transaction>();
 
             AddTransactions(doc.BankTransactions, expenses, () => new BankTransaction());
             AddTransactions(doc.CreditCardTransactions, expenses, () => new CreditCardTransaction());
@@ -37,11 +37,18 @@ namespace FinanceModel
             return expenses;
         }
 
-        private void AddTransactions(IEnumerable<BasicTransaction> source, TransactionCollection target, Func<Transaction> transactionFactory)
+        private void AddTransactions(IEnumerable<BasicTransaction> source, IList<Transaction> target, Func<Transaction> transactionFactory)
         {
-            foreach (var transaction in source)
+            foreach (var tran in source)
             {
-                target.Add(transaction.Memo, transaction.Amount, transaction.Date, transaction.Payee, transactionFactory);
+                var transaction = transactionFactory();
+
+                transaction.Amount = tran.Amount;
+                transaction.Date = tran.Date;
+                transaction.Description = tran.Memo;
+                transaction.Payee = tran.Payee;
+
+                target.Add(transaction);
             }
         }
              

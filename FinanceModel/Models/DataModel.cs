@@ -10,7 +10,7 @@ namespace FinanceModel.Models
 
         private ITransactionSaver _transactionSaver;
 
-        private TransactionCollection _transactions = new TransactionCollection();
+        private readonly TransactionCollection _transactions = new TransactionCollection();
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -23,6 +23,12 @@ namespace FinanceModel.Models
             _transactionLoader = transactionLoader;
             _transactionSaver = transactionSaver;
             _transactions.CollectionChanged += _transactions_CollectionChanged;
+            _transactions.TransactionsChanged += _transactions_TransactionsChanged;
+        }
+
+        private void _transactions_TransactionsChanged(object sender, EventArgs e)
+        {
+            OnPropertyChanged(nameof(Transactions));
         }
 
         private void _transactions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -40,7 +46,8 @@ namespace FinanceModel.Models
         {
             try
             {
-                Transactions.AddRange(_transactionLoader.Load(dataFilePath));
+                var transactions = _transactionLoader.Load(dataFilePath);
+                Transactions.AddRange(transactions);
                 StartDate = Transactions.StartDate;
                 EndDate = Transactions.EndDate;
             }

@@ -14,32 +14,41 @@ namespace FinanceModel
 
         public DateTime EndDate { get; set; }
 
-        public void Add(string description, decimal amount, DateTime date, string payee, Func<Transaction> transactionFactory)
+        public event EventHandler TransactionsChanged;
+
+        public TransactionCollection()
         {
-            var transaction = transactionFactory();
 
-            transaction.Amount = amount;
-            transaction.Date = date;
-            transaction.Description = description;
-            transaction.Payee = payee;
-            
+        }
+
+        
+        public new void Add(Transaction transaction)
+        {
             transaction.PropertyChanged += Transaction_PropertyChanged;
-            Add(transaction);
-
-            if(StartDate > date)
+            base.Add(transaction);
+            OnTransactionsChanged();
+            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            
+            if (StartDate > transaction.Date)
             {
-                date = StartDate;
+                StartDate = transaction.Date;
             }
 
-            if(EndDate < date)
+            if (EndDate < transaction.Date)
             {
-                date = EndDate;
+                EndDate = transaction.Date;
             }
         }
 
         private void Transaction_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
             OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
+            OnTransactionsChanged();
+        }
+
+        protected virtual void OnTransactionsChanged()
+        {
+            TransactionsChanged?.Invoke(this, EventArgs.Empty);
         }
 
         public void AddRange(IEnumerable<Transaction> items)

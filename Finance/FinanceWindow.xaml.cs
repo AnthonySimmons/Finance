@@ -116,8 +116,8 @@ namespace Finance
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
             fileDialog.Filter = ".qif|Quicken Interexchange Format";
-            fileDialog.CheckFileExists = true;
-            fileDialog.DefaultExt = ".qif";
+            
+            fileDialog.DefaultExt = ".qif"; 
             fileDialog.ShowDialog();
             SaveData(fileDialog.FileName);
         }

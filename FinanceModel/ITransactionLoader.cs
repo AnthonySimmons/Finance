@@ -1,9 +1,12 @@
 ﻿
+using FinanceModel.Models;
+using System.Collections.Generic;
+
 namespace FinanceModel
 {
     public interface ITransactionLoader
     {
 
-        TransactionCollection Load(string filePath);
+        IEnumerable<Transaction> Load(string filePath);
     }
 }

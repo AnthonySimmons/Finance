@@ -90,7 +90,7 @@ namespace Finance.ViewModels
         {
             _dataModel = dataModel;
             _dataModel.PropertyChanged += _dataModel_PropertyChanged;
-
+            
             ResetDates();
 
             ReportType = ReportType.Total;
