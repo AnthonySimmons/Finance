@@ -14,15 +14,58 @@ namespace FinanceModel.Models
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public DateTime StartDate { get; set; }
+        private DateTime _startDate;
+        public DateTime StartDate
+        {
+            get
+            {
+                return _startDate;
+            }
+            set
+            {
+                if (value != _startDate)
+                {
+                    _startDate = value;
+                    OnPropertyChanged(nameof(StartDate));
+                }
+            }
+        }
 
-        public DateTime EndDate { get; set; }
+        private DateTime _endDate;
+        public DateTime EndDate
+        {
+            get
+            {
+                return _endDate;
+            }
+            set
+            {
+                if(value != _endDate)
+                {
+                    _endDate = value;
+                    OnPropertyChanged(nameof(EndDate));
+                }
+            }
+        }
 
+        private string _dataFilePath;
+        public string DataFilePath
+        {
+            get { return _dataFilePath; }
+            private set
+            {
+                if (value != _dataFilePath)
+                {
+                    _dataFilePath = value;
+                    OnPropertyChanged(nameof(DataFilePath));
+                }
+            }
+        }
+        
         public DataModel(ITransactionLoader transactionLoader, ITransactionSaver transactionSaver)
         {
             _transactionLoader = transactionLoader;
             _transactionSaver = transactionSaver;
-            _transactions.CollectionChanged += _transactions_CollectionChanged;
             _transactions.TransactionsChanged += _transactions_TransactionsChanged;
         }
 
@@ -30,22 +73,27 @@ namespace FinanceModel.Models
         {
             OnPropertyChanged(nameof(Transactions));
         }
-
-        private void _transactions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            OnPropertyChanged(nameof(Transactions));
-        }
-
+        
         public void Clear()
         {
             _transactions.Clear();
         }
         
+        public void Refresh()
+        {
+            if(string.IsNullOrWhiteSpace(DataFilePath))
+            {
+                throw new InvalidOperationException("No Data File Path defined");
+            }
+            Clear();
+            LoadDataFromFile(DataFilePath);
+        }
         
         public void LoadDataFromFile(string dataFilePath)
         {
             try
             {
+                DataFilePath = dataFilePath;
                 var transactions = _transactionLoader.Load(dataFilePath);
                 Transactions.AddRange(transactions);
                 StartDate = Transactions.StartDate;
@@ -74,8 +122,8 @@ namespace FinanceModel.Models
         public DateTime GetEarliestTransaction()
         {
             DateTime val = DateTime.Now;
-            Transaction tran = Transactions.OrderBy(t => t.Date).FirstOrDefault();
-            if(tran != null && tran.Date > DateTime.MinValue)
+            Transaction tran = Transactions.OrderBy(t => t.Date).FirstOrDefault(t => t.Date > DateTime.MinValue);
+            if(tran != null)
             {
                 val = tran.Date;
             }

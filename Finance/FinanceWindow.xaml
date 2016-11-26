@@ -6,6 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Finance"
         xmlns:vms="clr-namespace:Finance.ViewModels"
+        xmlns:converters="clr-namespace:Finance.Converters"
         xmlns:DV="clr-namespace:System.Windows.Controls.DataVisualization;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         xmlns:DVC="clr-namespace:System.Windows.Controls.DataVisualization.Charting;assembly=System.Windows.Controls.DataVisualization.Toolkit"
         mc:Ignorable="d"
@@ -14,6 +15,11 @@
         Title="Finance" Height="600" Width="900"
         DataContext="{StaticResource ApplicationViewModel}"
         >
+    <Window.Resources>
+        <converters:EnumBoolConverter x:Key="enumBooleanConverter" />
+        <converters:BoolVisibilityConverter x:Key="boolVisibilityConverter" />
+    </Window.Resources>
+
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:FinanceWindow.OpenCommand}" Executed="OpenCommandExecuted"/>
         <CommandBinding Command="{x:Static local:FinanceWindow.SaveCommand}" Executed="SaveCommandExecuted"/>
@@ -36,25 +42,20 @@
                     <MenuItem Header="_Save" Click="MenuItem_Save_Click" InputGestureText="Ctrl+S"/>
                     <MenuItem Header="_Exit" Click="MenuItem_Exit_Click"/>
                 </MenuItem>
+                <MenuItem Header="_Options">
+                    <MenuItem Header="Clear" Click="MenuItem_Clear_Click"/>
+                    <MenuItem Header="Refresh" Click="MenuItem_Refresh_Click"/>
+                </MenuItem>
             </Menu>
+            <ProgressBar IsIndeterminate="True" Height="50" Visibility="{Binding Path=IsLoading,Converter={StaticResource boolVisibilityConverter}}" />
         </StackPanel>
         <GridSplitter Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" />
-        <DataGrid Name="DataViewGrid" Grid.Row="1" Grid.Column="0" DataContext="{Binding Path=DataGridViewModel}" ItemsSource="{Binding Path=Transactions}">
-            
-            <DataGrid.RowDetailsTemplate>
-                <DataTemplate>
-                    <TextBlock Text="{Binding}"/>
-                </DataTemplate>
-            </DataGrid.RowDetailsTemplate>
-        </DataGrid>
-        
+        <DataGrid Name="DataViewGrid" Grid.Row="1" Grid.Column="0" DataContext="{Binding Path=DataGridViewModel}" ItemsSource="{Binding Path=Transactions}" />
+
         <TabControl Grid.Row="1" Grid.Column="2">
             <TabItem Header="Line" Width="200" Height="22" Margin="0,-2,0,0" VerticalAlignment="Top">
                 <Grid DataContext="{Binding Path=LineChartViewModel}" Name="LineChartGrid">
-                    <Grid.Resources>
-                        <local:EnumBoolConverter x:Key="enumBooleanConverter" />
-                    </Grid.Resources>
-
+                    
                     <Grid.RowDefinitions>
                         <RowDefinition Height="3*"/>
                         <RowDefinition Height="20*"/>
@@ -100,9 +101,6 @@
 
             <TabItem Header="Pie" Width="200">
                 <Grid DataContext="{Binding Path=PieChartViewModel}" Name="PieChartGrid">
-                    <Grid.Resources>
-                        <local:EnumBoolConverter x:Key="enumBooleanConverter" />
-                    </Grid.Resources>
 
                     <Grid.RowDefinitions>
                         <RowDefinition Height="3*"/>

@@ -1,5 +1,6 @@
 ﻿using Finance.DataFilters;
 using FinanceModel.Models;
+using System.Windows;
 
 namespace Finance.ViewModels
 {
@@ -13,13 +14,16 @@ namespace Finance.ViewModels
 
         protected override void LoadDataPoints()
         {
-            DataFilter filter = GetFilter(ReportType);
-            DataPoints.Clear();
-            var dataPoints = filter.Filter<PieChartDataPoint>(_dataModel.Transactions, StartDate, EndDate);
-            foreach (var dataPoint in dataPoints)
+            Application.Current.Dispatcher.Invoke(() =>
             {
-                DataPoints.Add(dataPoint);
-            }
+                DataFilter filter = GetFilter(ReportType);
+                DataPoints.Clear();
+                var dataPoints = filter.Filter<PieChartDataPoint>(_dataModel.Transactions, StartDate, EndDate);
+                foreach (var dataPoint in dataPoints)
+                {
+                    DataPoints.Add(dataPoint);
+                }
+            });
         }
     }
 }

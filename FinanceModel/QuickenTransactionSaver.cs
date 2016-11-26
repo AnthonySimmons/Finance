@@ -34,6 +34,11 @@ namespace FinanceModel
             QifDocument qif = new QifDocument();
             foreach(Transaction transaction in transactions)
             {
+                if(!transaction.Included)
+                {
+                    continue;
+                }
+
                 if (transaction is BankTransaction)
                 {
                     qif.BankTransactions.Add(GetBasicTransaction(transaction));

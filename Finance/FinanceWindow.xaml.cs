@@ -82,6 +82,28 @@ namespace Finance
             }
         }
 
+        private void ClearData()
+        {
+            ApplicationViewModel appViewModel = (ApplicationViewModel)DataContext;
+            appViewModel.ClearData();
+        }
+
+        private void RefreshData()
+        {
+            ApplicationViewModel appViewModel = (ApplicationViewModel)DataContext;
+            appViewModel.RefreshData();
+        }
+
+        private void MenuItem_Clear_Click(object sender, RoutedEventArgs e)
+        {
+            ClearData();
+        }
+
+        private void MenuItem_Refresh_Click(object sender, RoutedEventArgs e)
+        {
+            RefreshData();
+        }
+
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
         {
             Environment.Exit(0);
@@ -115,7 +137,7 @@ namespace Finance
         private void SaveFiles()
         {
             SaveFileDialog fileDialog = new SaveFileDialog();
-            fileDialog.Filter = ".qif|Quicken Interexchange Format";
+            fileDialog.Filter = "Quicken Interexchange Format (*.qif)|*.qif|All Files (*.*)|*.*";
             
             fileDialog.DefaultExt = ".qif"; 
             fileDialog.ShowDialog();

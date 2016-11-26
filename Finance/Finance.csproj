@@ -93,6 +93,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Converters\BoolVisibilityConverter.cs" />
     <Compile Include="DataFilters\DataFilter.cs" />
     <Compile Include="DataFilters\DataFilterExpenses.cs" />
     <Compile Include="DataFilters\DataFilterIncome.cs" />

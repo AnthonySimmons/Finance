@@ -1,12 +1,10 @@
 ﻿using FinanceModel.Models;
 using System;
 using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Collections.Specialized;
 
 namespace FinanceModel
 {
-    public class TransactionCollection :  ObservableCollection<Transaction>, IList<Transaction>
+    public class TransactionCollection : List<Transaction>
     {        
         public bool IsReadOnly => false;
         
@@ -27,9 +25,8 @@ namespace FinanceModel
             transaction.PropertyChanged += Transaction_PropertyChanged;
             base.Add(transaction);
             OnTransactionsChanged();
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             
-            if (StartDate > transaction.Date)
+            if (StartDate > transaction.Date && transaction.Date > DateTime.MinValue)
             {
                 StartDate = transaction.Date;
             }
@@ -39,10 +36,24 @@ namespace FinanceModel
                 EndDate = transaction.Date;
             }
         }
+        
+        public new void Remove(Transaction transaction)
+        {
+            transaction.PropertyChanged -= Transaction_PropertyChanged;
+            base.Remove(transaction);
+        }
+
+        public new void Clear()
+        {
+            foreach(var transaction in this)
+            {
+                transaction.PropertyChanged -= Transaction_PropertyChanged;
+            }
+            base.Clear();
+        }
 
         private void Transaction_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
         {
-            OnCollectionChanged(new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
             OnTransactionsChanged();
         }
 
@@ -51,7 +62,7 @@ namespace FinanceModel
             TransactionsChanged?.Invoke(this, EventArgs.Empty);
         }
 
-        public void AddRange(IEnumerable<Transaction> items)
+        public new void AddRange(IEnumerable<Transaction> items)
         {
             foreach(var item in items)
             {
