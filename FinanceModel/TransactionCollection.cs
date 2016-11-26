@@ -14,6 +14,8 @@ namespace FinanceModel
 
         public event EventHandler TransactionsChanged;
 
+        private bool ShouldNotify = true;
+
         public TransactionCollection()
         {
 
@@ -50,6 +52,7 @@ namespace FinanceModel
                 transaction.PropertyChanged -= Transaction_PropertyChanged;
             }
             base.Clear();
+            OnTransactionsChanged();
         }
 
         private void Transaction_PropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
@@ -59,15 +62,21 @@ namespace FinanceModel
 
         protected virtual void OnTransactionsChanged()
         {
-            TransactionsChanged?.Invoke(this, EventArgs.Empty);
+            if (ShouldNotify)
+            {
+                TransactionsChanged?.Invoke(this, EventArgs.Empty);
+            }
         }
 
         public new void AddRange(IEnumerable<Transaction> items)
         {
+            ShouldNotify = false;   
             foreach(var item in items)
             {
                 Add(item);
             }
+            ShouldNotify = true;
+            OnTransactionsChanged();
         }
     }
 }

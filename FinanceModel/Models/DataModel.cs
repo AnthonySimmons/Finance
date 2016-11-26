@@ -85,8 +85,11 @@ namespace FinanceModel.Models
             {
                 throw new InvalidOperationException("No Data File Path defined");
             }
+            _transactions.TransactionsChanged -= _transactions_TransactionsChanged;
             Clear();
             LoadDataFromFile(DataFilePath);
+            _transactions.TransactionsChanged += _transactions_TransactionsChanged;
+            OnPropertyChanged(nameof(Transactions));
         }
         
         public void LoadDataFromFile(string dataFilePath)
