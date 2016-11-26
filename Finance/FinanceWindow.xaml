@@ -23,6 +23,8 @@
     <Window.CommandBindings>
         <CommandBinding Command="{x:Static local:FinanceWindow.OpenCommand}" Executed="OpenCommandExecuted"/>
         <CommandBinding Command="{x:Static local:FinanceWindow.SaveCommand}" Executed="SaveCommandExecuted"/>
+        <CommandBinding Command="{x:Static local:FinanceWindow.RefreshCommand}" Executed="RefreshCommandExecuted"/>
+        <CommandBinding Command="{x:Static local:FinanceWindow.ClearCommand}" Executed="ClearCommandExecuted"/>
     </Window.CommandBindings>
     <Grid>
         <Grid.RowDefinitions>
@@ -43,8 +45,8 @@
                     <MenuItem Header="_Exit" Click="MenuItem_Exit_Click"/>
                 </MenuItem>
                 <MenuItem Header="_Options">
-                    <MenuItem Header="Clear" Click="MenuItem_Clear_Click"/>
-                    <MenuItem Header="Refresh" Click="MenuItem_Refresh_Click"/>
+                    <MenuItem Header="Clear" Click="MenuItem_Clear_Click" InputGestureText="Ctrl+E"/>
+                    <MenuItem Header="Refresh" Click="MenuItem_Refresh_Click" InputGestureText="Ctrl+R"/>
                 </MenuItem>
             </Menu>
             <ProgressBar IsIndeterminate="True" Height="50" Visibility="{Binding Path=IsLoading,Converter={StaticResource boolVisibilityConverter}}" />

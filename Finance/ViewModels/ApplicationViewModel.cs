@@ -99,7 +99,9 @@ namespace Finance.ViewModels
 
         public void RefreshData()
         {
+            IsLoading = true;
             _dataModel.Refresh();
+            IsLoading = false;
         }
 
     }

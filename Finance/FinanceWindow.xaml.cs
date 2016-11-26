@@ -14,10 +14,10 @@ namespace Finance
     /// </summary>
     public partial class FinanceWindow : Window
     {
-
         public static RoutedCommand OpenCommand = new RoutedCommand();
-
-        public static RoutedCommand SaveCommand = new RoutedCommand();       
+        public static RoutedCommand SaveCommand = new RoutedCommand();
+        public static RoutedCommand ClearCommand = new RoutedCommand();
+        public static RoutedCommand RefreshCommand = new RoutedCommand();
 
         public FinanceWindow()
         {
@@ -25,6 +25,8 @@ namespace Finance
             Loaded += FinanceWindow_Loaded;
             OpenCommand.InputGestures.Add(new KeyGesture(Key.O, ModifierKeys.Control));
             SaveCommand.InputGestures.Add(new KeyGesture(Key.S, ModifierKeys.Control));
+            ClearCommand.InputGestures.Add(new KeyGesture(Key.E, ModifierKeys.Control));
+            RefreshCommand.InputGestures.Add(new KeyGesture(Key.R, ModifierKeys.Control));
         }
 
 
@@ -36,6 +38,16 @@ namespace Finance
         private void OpenCommandExecuted(object sender, ExecutedRoutedEventArgs e)
         {
             OpenFiles();
+        }
+
+        private void RefreshCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            RefreshData();
+        }
+
+        private void ClearCommandExecuted(object sender, ExecutedRoutedEventArgs e)
+        {
+            ClearData();
         }
 
         private void FinanceWindow_Loaded(object sender, RoutedEventArgs e)
