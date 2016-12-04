@@ -5,6 +5,7 @@ using Hazzik.Qif.Transactions;
 using System;
 using Transaction = FinanceModel.Models.Transaction;
 using FinanceModel.Models;
+using FinanceModel.Transfers;
 
 namespace FinanceModel
 {
@@ -47,7 +48,7 @@ namespace FinanceModel
                 transaction.Date = tran.Date;
                 transaction.Description = tran.Memo;
                 transaction.Payee = tran.Payee;
-
+                transaction.Included = !TransferManager.IsTransfer(transaction);
                 target.Add(transaction);
             }
         }

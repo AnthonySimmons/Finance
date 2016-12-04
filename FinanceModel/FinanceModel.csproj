@@ -74,6 +74,7 @@
     <Compile Include="QuickenTransactionSaver.cs" />
     <Compile Include="Settings\StaticSettings.cs" />
     <Compile Include="TransactionCollection.cs" />
+    <Compile Include="Transfers\TransferManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

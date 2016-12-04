@@ -68,7 +68,7 @@ namespace Finance.ViewModels
 
 
         private ObservableCollection<DataPoint> _dataPoints = new ObservableCollection<DataPoint>();
-        public ObservableCollection<DataPoint> DataPoints
+        public virtual ObservableCollection<DataPoint> DataPoints
         {
             get
             {

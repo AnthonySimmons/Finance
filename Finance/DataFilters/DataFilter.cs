@@ -1,6 +1,7 @@
 ﻿using Finance.ViewModels;
 using FinanceModel;
 using FinanceModel.Models;
+using FinanceModel.Transfers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,12 +10,6 @@ namespace Finance.DataFilters
 {
     public abstract class DataFilter
     {
-        public static string[] TransferDescriptions = new string[]
-        {
-            @"TRANSFER",
-            @"AUTHORIZED PMT BANK OF AMERI",
-        };
-
         public virtual IEnumerable<T> Filter<T>(IEnumerable<Transaction> transactions, DateTime startDate, DateTime endDate)  where T : DataPoint, new()
         {
             var filteredData = new List<T>();
@@ -33,14 +28,9 @@ namespace Finance.DataFilters
 
         protected virtual bool ShouldInclude(Transaction transaction, DateTime startDate, DateTime endDate)
         {
-            return !IsTransfer(transaction) && IsInDateRange(transaction.Date, startDate, endDate) && transaction.Included;
+            return !TransferManager.IsTransfer(transaction) && IsInDateRange(transaction.Date, startDate, endDate) && transaction.Included;
         }
-
-        private bool IsTransfer(Transaction transaction)
-        {
-            return TransferDescriptions.Any(d => transaction.Description.Contains(d) || transaction.Payee.Contains(d));
-        }
-
+       
         private bool IsInDateRange(DateTime source, DateTime startDate, DateTime endDate)
         {
             return source > startDate && source < endDate;
